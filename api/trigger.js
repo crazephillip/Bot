@@ -113,7 +113,7 @@ module.exports = async function handler(req, res) {
         const game = todayGames.find(g => g.home===p.team||g.away===p.team);
         const opp  = game ? (game.home===p.team ? game.away : game.home) : 'OPP';
         const pick = runPropModel(p.name, String(p.id), p.team, sk, line, allLogs, opp);
-        if (pick && pick.ev > 0.03) picks.push(pick);
+        if (pick) picks.push(pick);
       }
     }
     const top = picks.sort((a,b)=>b.ev-a.ev).slice(0,15);

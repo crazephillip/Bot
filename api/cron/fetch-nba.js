@@ -157,7 +157,7 @@ module.exports = async function handler(req, res) {
         const opp  = game ? (game.home === p.team ? game.away : game.home) : 'OPP';
 
         const pick = runPropModel(p.name, String(p.id), p.team, statKey, line, allLogs, opp);
-        if (pick && pick.ev > 0.03) picks.push(pick);
+        if (pick) picks.push(pick);
       }
     }
 
