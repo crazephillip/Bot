@@ -93,13 +93,17 @@ module.exports = async function handler(req, res) {
     const byPlayer = {};
     for (const l of existing) { const p=String(l.player_id); if(!byPlayer[p]) byPlayer[p]=[]; byPlayer[p].push(l); }
 
+    res.write(`Fetching ${players.length} players in parallel...\n`);
+    const results = await Promise.allSettled(
+      players.map(p => fetchPlayerLogs(String(p.id), p.name, p.team))
+    );
     const allLogs = [];
-    for (const p of players) {
-      res.write(`Fetching ${p.name}...\n`);
-      const logs = await fetchPlayerLogs(String(p.id), p.name, p.team);
+    results.forEach((r, i) => {
+      const p = players[i];
+      const logs = r.status === 'fulfilled' ? r.value : [];
       allLogs.push(...(logs.length > 0 ? logs : (byPlayer[String(p.id)]||[])));
-      await sleep(1000);
-    }
+      res.write(`  ${p.name}: ${logs.length} games\n`);
+    });
     if (allLogs.length) await writeData('nba_gamelogs', allLogs);
 
     const todayGames = await fetchTodaysGames();
