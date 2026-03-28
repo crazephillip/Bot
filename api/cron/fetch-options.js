@@ -15,11 +15,6 @@ async function fetchJson(url) {
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 module.exports = async function handler(req, res) {
-  if (req.headers.authorization !== `Bearer ${process.env.CRON_SECRET}`) {
-    res.status(401).json({ error: 'Unauthorized' });
-    return;
-  }
-
   try {
     const watchlist = await readData('watchlist');
     if (!watchlist.length) {

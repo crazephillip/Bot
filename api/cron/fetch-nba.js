@@ -115,11 +115,6 @@ async function fetchTodaysGames() {
 }
 
 module.exports = async function handler(req, res) {
-  if (req.headers.authorization !== `Bearer ${process.env.CRON_SECRET}`) {
-    res.status(401).json({ error: 'Unauthorized' });
-    return;
-  }
-
   try {
     // Load or seed players
     let players = await readData('nba_players');
