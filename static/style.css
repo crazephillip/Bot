@@ -1,0 +1,578 @@
+/* Trading Platform — Dark Theme */
+:root {
+  --bg:       #0d1117;
+  --surface:  #161b22;
+  --surface2: #1c2128;
+  --border:   #30363d;
+  --text:     #e6edf3;
+  --muted:    #8b949e;
+  --blue:     #58a6ff;
+  --green:    #3fb950;
+  --red:      #f78166;
+  --yellow:   #e3b341;
+  --purple:   #bc8cff;
+  --orange:   #ffa657;
+  --radius:   6px;
+  --font:     'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: var(--font);
+  font-size: 14px;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ── Scrollbars ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ── Layout ─────────────────────────────────────────────────────────────── */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Top Nav ─────────────────────────────────────────────────────────────── */
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  height: 52px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+.top-nav .brand {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--blue);
+  margin-right: 16px;
+  white-space: nowrap;
+}
+
+.top-nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius);
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+}
+.top-nav .nav-link:hover { background: var(--surface2); color: var(--text); }
+.top-nav .nav-link.active { background: var(--blue); color: #fff; }
+
+.top-nav .spacer { flex: 1; }
+
+.status-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+  display: inline-block;
+  margin-right: 4px;
+}
+.status-dot.live { background: var(--green); box-shadow: 0 0 6px var(--green); }
+
+/* ── Tab Bar ─────────────────────────────────────────────────────────────── */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  padding: 0 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.tab-btn {
+  padding: 10px 18px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.15s, border-color 0.15s;
+  font-family: var(--font);
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+/* ── Tab Content ─────────────────────────────────────────────────────────── */
+.tab-content { display: none; flex: 1; overflow: hidden; }
+.tab-content.active { display: flex; }
+
+/* ── Two-pane layout ─────────────────────────────────────────────────────── */
+.pane-left {
+  width: 260px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.pane-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 16px;
+  gap: 12px;
+}
+
+.pane-scroll { flex: 1; overflow-y: auto; }
+
+/* ── Cards ───────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── Inputs & Buttons ────────────────────────────────────────────────────── */
+input, select, textarea {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  padding: 6px 10px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--blue);
+}
+input::placeholder { color: var(--muted); }
+
+select option { background: var(--surface); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font);
+  transition: filter 0.15s, background 0.15s;
+  text-decoration: none;
+}
+.btn:hover { filter: brightness(1.1); }
+.btn:active { filter: brightness(0.9); }
+
+.btn-primary  { background: var(--blue);   color: #fff; }
+.btn-success  { background: var(--green);  color: #fff; }
+.btn-danger   { background: var(--red);    color: #fff; }
+.btn-warning  { background: var(--yellow); color: #0d1117; }
+.btn-ghost    { background: transparent; border: 1px solid var(--border); color: var(--text); }
+.btn-sm       { padding: 4px 10px; font-size: 12px; }
+
+/* ── Tables ──────────────────────────────────────────────────────────────── */
+.table-wrap {
+  overflow: auto;
+  flex: 1;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background: var(--surface2);
+  color: var(--muted);
+  font-weight: 600;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  z-index: 1;
+}
+thead th:hover { color: var(--text); }
+thead th.sort-asc::after  { content: ' ▲'; color: var(--blue); font-size: 10px; }
+thead th.sort-desc::after { content: ' ▼'; color: var(--blue); font-size: 10px; }
+
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--surface2); }
+
+td { padding: 8px 12px; }
+
+/* row colors */
+tr.row-green td:first-child { border-left: 3px solid var(--green); }
+tr.row-red   td:first-child { border-left: 3px solid var(--red); }
+tr.row-itm   { background: rgba(63, 185, 80, 0.05); }
+tr.row-itm:hover { background: rgba(63, 185, 80, 0.10); }
+
+/* ── Badges ──────────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+.badge-green  { background: rgba(63, 185, 80, 0.2);   color: var(--green); }
+.badge-red    { background: rgba(247, 129, 102, 0.2); color: var(--red); }
+.badge-blue   { background: rgba(88, 166, 255, 0.2);  color: var(--blue); }
+.badge-yellow { background: rgba(227, 179, 65, 0.2);  color: var(--yellow); }
+.badge-purple { background: rgba(188, 140, 255, 0.2); color: var(--purple); }
+.badge-muted  { background: var(--surface2);           color: var(--muted); }
+
+/* ── Stat Chips ──────────────────────────────────────────────────────────── */
+.stat-chip {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  min-width: 80px;
+}
+.stat-chip .value { font-size: 20px; font-weight: 700; }
+.stat-chip .label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+.stat-chips-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ── Sidebar item ────────────────────────────────────────────────────────── */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+  gap: 10px;
+}
+.sidebar-item:hover { background: var(--surface2); }
+.sidebar-item.active { background: rgba(88, 166, 255, 0.1); border-right: 2px solid var(--blue); }
+
+.sidebar-item .ticker { font-weight: 700; font-size: 14px; }
+.sidebar-item .price  { font-size: 13px; }
+.sidebar-item .change { font-size: 12px; }
+.change.pos { color: var(--green); }
+.change.neg { color: var(--red); }
+
+.sidebar-header {
+  padding: 12px 14px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Add ticker row ──────────────────────────────────────────────────────── */
+.add-ticker-row {
+  display: flex;
+  gap: 6px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.add-ticker-row input { flex: 1; }
+
+/* ── Summary Bar ─────────────────────────────────────────────────────────── */
+.summary-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ── Chain Toggle ────────────────────────────────────────────────────────── */
+.chain-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ── Form Grid ───────────────────────────────────────────────────────────── */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+}
+.form-group { display: flex; flex-direction: column; gap: 4px; }
+.form-group label { font-size: 12px; color: var(--muted); }
+.form-group input, .form-group select { width: 100%; }
+
+/* ── Tooltip ─────────────────────────────────────────────────────────────── */
+[title] { cursor: help; }
+
+/* ── Pick Cards (NBA) ────────────────────────────────────────────────────── */
+.picks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.pick-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.15s;
+}
+.pick-card:hover { border-color: var(--blue); }
+.pick-card.ev-positive { border-left: 3px solid var(--green); }
+.pick-card.ev-negative { border-left: 3px solid var(--red); }
+
+.pick-card .player-name { font-size: 16px; font-weight: 700; }
+.pick-card .matchup     { font-size: 12px; color: var(--muted); }
+
+.pick-probs {
+  display: flex;
+  gap: 16px;
+}
+.pick-prob-item { display: flex; flex-direction: column; }
+.pick-prob-item .prob-val  { font-size: 22px; font-weight: 700; }
+.pick-prob-item .prob-val.our { color: var(--blue); }
+.pick-prob-item .prob-label { font-size: 11px; color: var(--muted); }
+
+.pick-ev { font-size: 18px; font-weight: 700; }
+.pick-ev.pos { color: var(--green); }
+.pick-ev.neg { color: var(--red); }
+
+.grade-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 15px;
+}
+.grade-A { background: rgba(63, 185, 80, 0.2);   color: var(--green); }
+.grade-B { background: rgba(227, 179, 65, 0.2);  color: var(--yellow); }
+.grade-C { background: rgba(139, 148, 158, 0.2); color: var(--muted); }
+
+/* ── Sparkline ───────────────────────────────────────────────────────────── */
+.sparkline { display: block; }
+
+/* ── Probability bar ─────────────────────────────────────────────────────── */
+.prob-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.prob-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--blue);
+  transition: width 0.4s ease;
+}
+
+/* ── Filter Bar ──────────────────────────────────────────────────────────── */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.filter-bar label { font-size: 12px; color: var(--muted); }
+.filter-bar input, .filter-bar select { padding: 4px 8px; font-size: 12px; }
+
+/* ── P&L Chart Canvas ────────────────────────────────────────────────────── */
+canvas.chart { border-radius: var(--radius); display: block; }
+
+/* ── Greeks Panel ────────────────────────────────────────────────────────── */
+.greek-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.greek-row:last-child { border-bottom: none; }
+.greek-name { font-weight: 600; }
+.greek-val  { font-size: 16px; font-weight: 700; }
+.greek-expl { font-size: 12px; color: var(--muted); max-width: 300px; }
+
+/* ── Analyzer split ──────────────────────────────────────────────────────── */
+.analyzer-wrap {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+.analyzer-left {
+  width: 380px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  overflow-y: auto;
+  border-right: 1px solid var(--border);
+}
+.analyzer-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 16px;
+  gap: 12px;
+}
+
+/* ── Bet tracker P&L row ─────────────────────────────────────────────────── */
+.pnl-summary {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ── Toast notifications ─────────────────────────────────────────────────── */
+#toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.toast {
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 13px;
+  animation: slideIn 0.2s ease;
+  min-width: 200px;
+}
+.toast.success { border-left: 3px solid var(--green); }
+.toast.error   { border-left: 3px solid var(--red); }
+.toast.info    { border-left: 3px solid var(--blue); }
+@keyframes slideIn {
+  from { transform: translateX(40px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+/* ── Modal ───────────────────────────────────────────────────────────────── */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+.modal-backdrop.open { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  min-width: 400px;
+  max-width: 560px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.modal-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* ── Loading Spinner ─────────────────────────────────────────────────────── */
+.spinner {
+  width: 20px; height: 20px;
+  border: 2px solid var(--border);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Empty state ─────────────────────────────────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  color: var(--muted);
+  text-align: center;
+  gap: 8px;
+}
+.empty-state .icon { font-size: 36px; opacity: 0.5; }
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .pane-left { width: 200px; }
+  .picks-grid { grid-template-columns: 1fr; }
+  .form-grid  { grid-template-columns: 1fr 1fr; }
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "trade-001",
+    "ticker": "AAPL",
+    "strike": 220,
+    "expiry": "2026-04-18",
+    "call_put": "CALL",
+    "contracts": 2,
+    "entry_price": 3.50,
+    "current_price": 4.85,
+    "status": "open",
+    "opened_at": "2026-03-15T09:32:00",
+    "closed_at": null,
+    "notes": "Bullish on earnings run-up",
+    "pnl": 270.00
+  },
+  {
+    "id": "trade-002",
+    "ticker": "SPY",
+    "strike": 530,
+    "expiry": "2026-03-28",
+    "call_put": "PUT",
+    "contracts": 5,
+    "entry_price": 2.10,
+    "current_price": 0.80,
+    "status": "closed",
+    "opened_at": "2026-03-10T10:15:00",
+    "closed_at": "2026-03-18T14:22:00",
+    "notes": "Hedge against market pullback",
+    "pnl": -650.00
+  },
+  {
+    "id": "trade-003",
+    "ticker": "TSLA",
+    "strike": 280,
+    "expiry": "2026-05-16",
+    "call_put": "CALL",
+    "contracts": 3,
+    "entry_price": 8.20,
+    "current_price": 11.40,
+    "status": "open",
+    "opened_at": "2026-03-22T11:05:00",
+    "closed_at": null,
+    "notes": "Technical breakout setup",
+    "pnl": 960.00
+  }
+]

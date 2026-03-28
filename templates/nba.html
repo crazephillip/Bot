@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NBA Props — Trading Platform</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- Top Nav -->
+  <nav class="top-nav">
+    <span class="brand">⚡ TradePlatform</span>
+    <a href="/options" class="nav-link">Options</a>
+    <a href="/nba" class="nav-link active">NBA Props</a>
+    <span class="spacer"></span>
+    <span style="font-size:12px;color:var(--muted)">
+      <span class="status-dot live"></span>Live
+    </span>
+  </nav>
+
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="picks"    onclick="switchTab('picks')">Daily Picks</button>
+    <button class="tab-btn"        data-tab="analyzer" onclick="switchTab('analyzer')">Prop Analyzer</button>
+    <button class="tab-btn"        data-tab="matchup"  onclick="switchTab('matchup')">Matchup Analyzer</button>
+    <button class="tab-btn"        data-tab="bets"     onclick="switchTab('bets')">Bet Tracker</button>
+  </div>
+
+  <!-- ── Tab 1: Daily Picks ─────────────────────────────────────────────── -->
+  <div class="tab-content active" id="tab-picks" style="flex-direction:column;overflow:hidden">
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <label>Stat:</label>
+      <select id="filter-stat" onchange="renderPicks()">
+        <option value="">All</option>
+        <option value="pts">Points</option>
+        <option value="reb">Rebounds</option>
+        <option value="ast">Assists</option>
+        <option value="stl">Steals</option>
+        <option value="blk">Blocks</option>
+        <option value="three_pm">3-Pointers</option>
+      </select>
+
+      <label>Min EV:</label>
+      <input id="filter-ev" type="number" placeholder="0" step="1" value="0"
+             style="width:60px" onchange="renderPicks()"
+             title="Filter by minimum expected value (as percentage, e.g. 5 = 5%)">
+
+      <label>Grade:</label>
+      <select id="filter-grade" onchange="renderPicks()">
+        <option value="">All</option>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+      </select>
+
+      <button class="btn btn-ghost btn-sm" onclick="loadTodayPicks()">↻ Refresh</button>
+
+      <span class="spacer"></span>
+      <span style="font-size:12px;color:var(--muted)">
+        Model refreshes every 15 min · <span id="picks-count"></span>
+      </span>
+    </div>
+
+    <!-- Picks Grid -->
+    <div class="picks-grid" id="picks-container">
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tab 2: Prop Analyzer ───────────────────────────────────────────── -->
+  <div class="tab-content" id="tab-analyzer">
+    <div class="analyzer-wrap">
+
+      <!-- Left Panel: Search + Inputs -->
+      <div class="analyzer-left">
+
+        <div class="card">
+          <div class="card-header"><span class="card-title">Player Search</span></div>
+          <div style="display:flex;gap:6px">
+            <input id="player-search" placeholder="Search player name…" style="flex:1">
+            <button class="btn btn-primary btn-sm" onclick="searchPlayers()">Search</button>
+          </div>
+          <div id="player-results" style="margin-top:6px;max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:6px"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><span class="card-title">Prop Settings</span></div>
+          <div id="selected-player-label" style="color:var(--blue);font-weight:600;margin-bottom:8px;min-height:18px"></div>
+          <div class="form-grid" style="grid-template-columns:1fr 1fr">
+            <div class="form-group">
+              <label title="Statistical category to analyze">Stat</label>
+              <select id="prop-stat">
+                <option value="pts">Points</option>
+                <option value="reb">Rebounds</option>
+                <option value="ast">Assists</option>
+                <option value="stl">Steals</option>
+                <option value="blk">Blocks</option>
+                <option value="three_pm">3-Pointers</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label title="The sportsbook prop line to beat">Prop Line</label>
+              <input id="prop-line" type="number" placeholder="25.5" step="0.5">
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+              <label title="Home vs Away game split affects prediction">Home / Away</label>
+              <select id="prop-home-away">
+                <option value="home">Home</option>
+                <option value="away">Away</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="runAnalysis()">Run Model</button>
+        </div>
+
+        <!-- Model Explanation -->
+        <div class="card">
+          <div class="card-header"><span class="card-title">Model Weights</span></div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">
+            <div>Last 5 games avg <strong style="color:var(--text)">35%</strong></div>
+            <div>Last 10 games avg <strong style="color:var(--text)">20%</strong></div>
+            <div>Season average <strong style="color:var(--text)">15%</strong></div>
+            <div>Home/Away split <strong style="color:var(--text)">10%</strong></div>
+            <div>vs Opponent <strong style="color:var(--text)">15%</strong></div>
+            <div>Opp rank adj <strong style="color:var(--text)">5%</strong></div>
+            <div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border)">
+              Back-to-back: <strong style="color:var(--red)">-8% penalty</strong>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Panel: Results + Logs -->
+      <div class="analyzer-right">
+
+        <div id="analysis-result">
+          <div class="empty-state">
+            <div class="icon">🎯</div>
+            <div>Search for a player, set the prop line, and click Run Model</div>
+          </div>
+        </div>
+
+        <!-- Game Log Table -->
+        <div class="card" style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+          <div class="card-header">
+            <span class="card-title">Game Log</span>
+            <span style="font-size:12px;color:var(--muted)" id="log-count"></span>
+          </div>
+          <div id="player-log-table" style="flex:1;overflow:auto">
+            <div class="empty-state"><div class="icon">📋</div><div>Select a player to view game logs</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tab 3: Matchup Analyzer ────────────────────────────────────────── -->
+  <div class="tab-content" id="tab-matchup" style="overflow:auto">
+    <div id="matchup-content" style="display:flex;flex:1;overflow:hidden">
+      <div class="empty-state"><div class="spinner"></div></div>
+    </div>
+  </div>
+
+  <!-- ── Tab 4: Bet Tracker ─────────────────────────────────────────────── -->
+  <div class="tab-content" id="tab-bets">
+    <div class="pane-main" style="overflow-y:auto">
+
+      <!-- Summary -->
+      <div class="card" style="flex-shrink:0">
+        <div class="card-header"><span class="card-title">Betting Summary</span></div>
+        <div class="stat-chips-row" id="bet-summary">
+          <div class="empty-state"><div class="spinner"></div></div>
+        </div>
+      </div>
+
+      <!-- Bankroll Chart -->
+      <div class="card" style="flex-shrink:0">
+        <div class="card-header"><span class="card-title">Bankroll P&amp;L</span></div>
+        <canvas id="bankroll-chart" class="chart" style="width:100%;height:120px"></canvas>
+      </div>
+
+      <!-- Add Bet Form -->
+      <div class="card" style="flex-shrink:0">
+        <div class="card-header"><span class="card-title">Add New Bet</span></div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Player Name *</label>
+            <input id="new-player" placeholder="LeBron James">
+          </div>
+          <div class="form-group">
+            <label>Prop Type *</label>
+            <select id="new-prop-type">
+              <option value="pts">Points</option>
+              <option value="reb">Rebounds</option>
+              <option value="ast">Assists</option>
+              <option value="stl">Steals</option>
+              <option value="blk">Blocks</option>
+              <option value="three_pm">3-Pointers</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Line *</label>
+            <input id="new-line" type="number" placeholder="25.5" step="0.5">
+          </div>
+          <div class="form-group">
+            <label title="American odds format (-110, +150, etc.)">Odds</label>
+            <input id="new-odds" type="number" value="-110" placeholder="-110">
+          </div>
+          <div class="form-group">
+            <label>Stake ($) *</label>
+            <input id="new-stake" type="number" placeholder="55" step="0.01">
+          </div>
+          <div class="form-group">
+            <label>Sportsbook</label>
+            <select id="new-sportsbook">
+              <option>DraftKings</option>
+              <option>FanDuel</option>
+              <option>BetMGM</option>
+              <option>Caesars</option>
+              <option>PointsBet</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Date</label>
+            <input id="new-date" type="date">
+          </div>
+        </div>
+        <div style="margin-top:12px">
+          <button class="btn btn-success" onclick="addBet()">Add Bet</button>
+        </div>
+      </div>
+
+      <!-- Bets Table -->
+      <div class="card" style="flex-shrink:0">
+        <div class="card-header">
+          <span class="card-title">All Bets</span>
+          <span style="font-size:12px;color:var(--muted)">Click result dropdowns to mark outcomes</span>
+        </div>
+        <div id="bets-table-wrap">
+          <div class="empty-state"><div class="spinner"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<script src="/static/nba.js"></script>
+</body>
+</html>

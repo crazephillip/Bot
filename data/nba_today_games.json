@@ -1,0 +1,82 @@
+﻿[
+    {
+        "id":  "401810921",
+        "name":  "LAC @ IND",
+        "home":  "IND",
+        "away":  "LAC",
+        "time":  "4:00 PM",
+        "status":  "Halftime"
+    },
+    {
+        "id":  "401810922",
+        "name":  "ATL @ BOS",
+        "home":  "BOS",
+        "away":  "ATL",
+        "time":  "4:30 PM",
+        "status":  "In Progress"
+    },
+    {
+        "id":  "401810923",
+        "name":  "MIA @ CLE",
+        "home":  "CLE",
+        "away":  "MIA",
+        "time":  "4:30 PM",
+        "status":  "In Progress"
+    },
+    {
+        "id":  "401810924",
+        "name":  "HOU @ MEM",
+        "home":  "MEM",
+        "away":  "HOU",
+        "time":  "5:00 PM",
+        "status":  "In Progress"
+    },
+    {
+        "id":  "401810925",
+        "name":  "CHI @ OKC",
+        "home":  "OKC",
+        "away":  "CHI",
+        "time":  "5:00 PM",
+        "status":  "In Progress"
+    },
+    {
+        "id":  "401810926",
+        "name":  "NO @ TOR",
+        "home":  "TOR",
+        "away":  "NO",
+        "time":  "5:30 PM",
+        "status":  "Scheduled"
+    },
+    {
+        "id":  "401810927",
+        "name":  "UTAH @ DEN",
+        "home":  "DEN",
+        "away":  "UTAH",
+        "time":  "6:00 PM",
+        "status":  "Scheduled"
+    },
+    {
+        "id":  "401810928",
+        "name":  "WSH @ GS",
+        "home":  "GS",
+        "away":  "WSH",
+        "time":  "7:00 PM",
+        "status":  "Scheduled"
+    },
+    {
+        "id":  "401810929",
+        "name":  "DAL @ POR",
+        "home":  "POR",
+        "away":  "DAL",
+        "time":  "7:00 PM",
+        "status":  "Scheduled"
+    },
+    {
+        "id":  "401810930",
+        "name":  "BKN @ LAL",
+        "home":  "LAL",
+        "away":  "BKN",
+        "time":  "7:30 PM",
+        "status":  "Scheduled"
+    }
+]

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Options Dashboard — Trading Platform</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- Top Nav -->
+  <nav class="top-nav">
+    <span class="brand">⚡ TradePlatform</span>
+    <a href="/options" class="nav-link active">Options</a>
+    <a href="/nba" class="nav-link">NBA Props</a>
+    <span class="spacer"></span>
+    <span style="font-size:12px;color:var(--muted)">
+      <span class="status-dot live"></span>Live
+    </span>
+  </nav>
+
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="chain"    onclick="switchTab('chain')">Chain &amp; Watchlist</button>
+    <button class="tab-btn"        data-tab="trades"   onclick="switchTab('trades')">My Trades</button>
+    <button class="tab-btn"        data-tab="greeks"   onclick="switchTab('greeks')">Greeks</button>
+    <button class="tab-btn"        data-tab="screener" onclick="switchTab('screener')">Screener</button>
+  </div>
+
+  <!-- ── Tab 1: Chain & Watchlist ─────────────────────────────────────── -->
+  <div class="tab-content active" id="tab-chain">
+    <!-- Left: Watchlist -->
+    <div class="pane-left">
+      <div class="sidebar-header">Watchlist</div>
+      <div class="add-ticker-row">
+        <input id="add-ticker" placeholder="AAPL, SPY…" maxlength="6" style="text-transform:uppercase">
+        <button class="btn btn-primary btn-sm" onclick="addTicker()" title="Add ticker to watchlist">+</button>
+      </div>
+      <div id="watchlist-items" class="pane-scroll">
+        <div class="empty-state"><div class="spinner"></div></div>
+      </div>
+    </div>
+
+    <!-- Right: Options Chain -->
+    <div class="pane-main" style="overflow:hidden">
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+        <h2 id="chain-title" style="font-size:16px;font-weight:700">Options Chain</h2>
+        <span style="color:var(--muted);font-size:12px">Click a ticker to load chain · Green rows = ITM</span>
+      </div>
+      <div id="chain-area" style="flex:1;overflow:auto;display:flex;flex-direction:column">
+        <div class="empty-state">
+          <div class="icon">📊</div>
+          <div>Select a ticker from the watchlist to view options chain</div>
+          <div style="font-size:12px;margin-top:4px">Chain auto-refreshes every 60 seconds</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tab 2: My Trades ──────────────────────────────────────────────── -->
+  <div class="tab-content" id="tab-trades">
+    <div class="pane-main" style="overflow-y:auto">
+
+      <!-- Summary -->
+      <div class="card" style="flex-shrink:0">
+        <div class="card-header"><span class="card-title">Portfolio Summary</span></div>
+        <div class="stat-chips-row" id="trades-summary">
+          <div class="empty-state"><div class="spinner"></div></div>
+        </div>
+      </div>
+
+      <!-- Trades Table -->
+      <div class="card" style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+        <div class="card-header">
+          <span class="card-title">All Trades</span>
+          <button class="btn btn-primary btn-sm" onclick="document.getElementById('add-trade-card').style.display='block'">+ New Trade</button>
+        </div>
+        <div id="trades-table-wrap" style="flex:1;overflow:auto">
+          <div class="empty-state"><div class="spinner"></div></div>
+        </div>
+      </div>
+
+      <!-- Add Trade Card (hidden by default) -->
+      <div id="add-trade-card" class="card" style="display:none;flex-shrink:0">
+        <div class="card-header">
+          <span class="card-title">Add New Trade</span>
+          <button class="btn btn-ghost btn-sm" onclick="document.getElementById('add-trade-card').style.display='none'">✕</button>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Ticker *</label>
+            <input id="new-ticker" placeholder="AAPL" maxlength="6" style="text-transform:uppercase">
+          </div>
+          <div class="form-group">
+            <label>Call / Put *</label>
+            <select id="new-callput">
+              <option value="CALL">CALL</option>
+              <option value="PUT">PUT</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Strike Price *</label>
+            <input id="new-strike" type="number" placeholder="220" step="0.5">
+          </div>
+          <div class="form-group">
+            <label>Expiry Date *</label>
+            <input id="new-expiry" type="date">
+          </div>
+          <div class="form-group">
+            <label>Contracts</label>
+            <input id="new-contracts" type="number" value="1" min="1">
+          </div>
+          <div class="form-group">
+            <label>Entry Price (per contract) *</label>
+            <input id="new-entry" type="number" placeholder="3.50" step="0.01">
+          </div>
+          <div class="form-group" style="grid-column:1/-1">
+            <label>Notes</label>
+            <input id="new-notes" placeholder="Trading thesis…">
+          </div>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button class="btn btn-success" onclick="addTrade()">Add Trade</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('add-trade-card').style.display='none'">Cancel</button>
+        </div>
+      </div>
+
+      <!-- P&L Chart -->
+      <div class="card" style="flex-shrink:0">
+        <div class="card-header"><span class="card-title">Cumulative P&amp;L</span></div>
+        <canvas id="pnl-chart" class="chart" style="width:100%;height:120px"></canvas>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Tab 3: Greeks ─────────────────────────────────────────────────── -->
+  <div class="tab-content" id="tab-greeks">
+    <div class="pane-main" style="overflow-y:auto">
+      <div id="greeks-content">
+        <div class="empty-state"><div class="spinner"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tab 4: Screener ───────────────────────────────────────────────── -->
+  <div class="tab-content" id="tab-screener">
+    <div class="pane-main" style="overflow:hidden;flex-direction:column">
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+        <h2 style="font-size:16px;font-weight:700">Options Screener</h2>
+        <span style="color:var(--muted);font-size:12px">Unusual volume, high IV, near-the-money activity</span>
+        <button class="btn btn-ghost btn-sm" onclick="loadScreener()">↻ Refresh</button>
+      </div>
+      <div id="screener-content" style="flex:1;overflow:auto">
+        <div class="empty-state"><div class="spinner"></div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Close Trade Modal -->
+<div class="modal-backdrop" id="close-modal">
+  <div class="modal">
+    <div class="modal-title">Close Trade — <span id="close-ticker-label"></span></div>
+    <div class="form-group">
+      <label>Close Price (per contract)</label>
+      <input id="close-price-input" type="number" step="0.01" placeholder="e.g. 5.20" style="width:100%">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-success" onclick="submitCloseTrade()">Close Trade &amp; Lock P&amp;L</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

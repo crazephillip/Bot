@@ -1,0 +1,12 @@
+[
+  {"id": "1966",    "name": "LeBron James",            "team": "CLE", "position": "F"},
+  {"id": "3975",    "name": "Stephen Curry",            "team": "GSW", "position": "G"},
+  {"id": "3136193", "name": "Luka Doncic",              "team": "LAL", "position": "G"},
+  {"id": "3032977", "name": "Giannis Antetokounmpo",    "team": "MIL", "position": "F"},
+  {"id": "3059318", "name": "Jayson Tatum",             "team": "BOS", "position": "F"},
+  {"id": "4065648", "name": "Shai Gilgeous-Alexander",  "team": "OKC", "position": "G"},
+  {"id": "4277905", "name": "Cade Cunningham",          "team": "DET", "position": "G"},
+  {"id": "3134907", "name": "Donovan Mitchell",         "team": "CLE", "position": "G"},
+  {"id": "4432816", "name": "Victor Wembanyama",        "team": "SAS", "position": "C"},
+  {"id": "4066648", "name": "Tyrese Haliburton",        "team": "IND", "position": "G"}
+]

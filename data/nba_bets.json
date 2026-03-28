@@ -1,0 +1,38 @@
+[
+  {
+    "id": "bet-001",
+    "date": "2026-03-20",
+    "player_name": "LeBron James",
+    "prop_type": "pts",
+    "line": 25.5,
+    "odds": -110,
+    "stake": 55,
+    "sportsbook": "DraftKings",
+    "result": "win",
+    "pnl": 50.00
+  },
+  {
+    "id": "bet-002",
+    "date": "2026-03-22",
+    "player_name": "Luka Doncic",
+    "prop_type": "pts",
+    "line": 33.5,
+    "odds": -115,
+    "stake": 57.50,
+    "sportsbook": "FanDuel",
+    "result": "win",
+    "pnl": 50.00
+  },
+  {
+    "id": "bet-003",
+    "date": "2026-03-24",
+    "player_name": "Jayson Tatum",
+    "prop_type": "reb",
+    "line": 8.5,
+    "odds": -110,
+    "stake": 55,
+    "sportsbook": "BetMGM",
+    "result": "loss",
+    "pnl": -55.00
+  }
+]
