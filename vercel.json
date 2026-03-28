@@ -4,8 +4,22 @@
     { "path": "/api/cron/fetch-nba",     "schedule": "0 12 * * *" }
   ],
   "rewrites": [
-    { "source": "/",       "destination": "/options.html" },
-    { "source": "/options","destination": "/options.html" },
-    { "source": "/nba",    "destination": "/nba.html" }
+    { "source": "/api/watchlist/add",            "destination": "/api/watchlist?action=add" },
+    { "source": "/api/watchlist/:ticker",         "destination": "/api/watchlist?ticker=:ticker" },
+    { "source": "/api/options/:ticker",           "destination": "/api/options?ticker=:ticker" },
+    { "source": "/api/price/:ticker",             "destination": "/api/price?ticker=:ticker" },
+    { "source": "/api/trades/add",                "destination": "/api/trades?action=add" },
+    { "source": "/api/trades/:id/close",          "destination": "/api/trades?action=close&id=:id" },
+    { "source": "/api/nba/picks/today",           "destination": "/api/nba?action=picks-today" },
+    { "source": "/api/nba/matchups",              "destination": "/api/nba?action=matchups" },
+    { "source": "/api/nba/players",               "destination": "/api/nba?action=players" },
+    { "source": "/api/nba/bets/add",              "destination": "/api/nba?action=bets-add" },
+    { "source": "/api/nba/bets/:id/result",       "destination": "/api/nba?action=bets-result&id=:id" },
+    { "source": "/api/nba/bets",                  "destination": "/api/nba?action=bets" },
+    { "source": "/api/nba/player/:id/stats",      "destination": "/api/nba?action=player-stats&id=:id" },
+    { "source": "/api/nba/player/:id/props",      "destination": "/api/nba?action=player-props&id=:id" },
+    { "source": "/",                              "destination": "/options.html" },
+    { "source": "/options",                       "destination": "/options.html" },
+    { "source": "/nba",                           "destination": "/nba.html" }
   ]
 }
